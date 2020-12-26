@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionName versions.sharedprefs
-        versionCode 2
+        versionName versions.versionName
+        versionCode versions.versionCode
     }
     lintOptions {
         abortOnError false
