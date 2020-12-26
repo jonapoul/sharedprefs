@@ -6,6 +6,14 @@ fun SharedPreferences.parseIntFromPair(pref: PrefPair<String>): Int {
     return this.getString(pref.key, pref.default)!!.toInt()
 }
 
+fun SharedPreferences.parseDoubleFromPair(pref: PrefPair<String>): Double {
+    return this.getString(pref.key, pref.default)!!.toDouble()
+}
+
+fun SharedPreferences.parseFloatFromPair(pref: PrefPair<String>): Float {
+    return this.getString(pref.key, pref.default)!!.toFloat()
+}
+
 fun SharedPreferences.getIntFromPair(pref: PrefPair<Int>): Int {
     return this.getInt(pref.key, pref.default)
 }
@@ -31,8 +39,8 @@ fun SharedPreferences.getStringSetFromPair(pref: PrefPair<Set<String>>): Set<Str
 }
 
 fun SharedPreferences.Editor.putIntIfNotNull(
-        pref: PrefPair<Int>,
-        value: Int?
+    pref: PrefPair<Int>,
+    value: Int?
 ): SharedPreferences.Editor {
     if (value != null) {
         this.putInt(pref.key, value)
@@ -41,8 +49,8 @@ fun SharedPreferences.Editor.putIntIfNotNull(
 }
 
 fun SharedPreferences.Editor.putFloatIfNotNull(
-        pref: PrefPair<Float>,
-        value: Float?
+    pref: PrefPair<Float>,
+    value: Float?
 ): SharedPreferences.Editor {
     if (value != null) {
         this.putFloat(pref.key, value)

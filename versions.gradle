@@ -8,7 +8,8 @@ ext.versions = [
         buildTools              : '29.0.3',
 
         // Project
-        sharedprefs             : '1.0.1',
+        versionName             : '1.0.2',
+        versionCode             : 3,
 
         // Libraries
         androidx_core           : '1.3.2',
