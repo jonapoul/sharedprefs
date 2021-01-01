@@ -30,6 +30,11 @@ fun SharedPreferences.getStringFromPair(pref: PrefPair<String>): String {
     return this.getString(pref.key, pref.default)!!
 }
 
+fun SharedPreferences.getStringFromPairNoBlank(pref: PrefPair<String>): String {
+    val result = getStringFromPair(pref)
+    return if (result.isBlank()) pref.default else result
+}
+
 fun SharedPreferences.getBooleanFromPair(pref: PrefPair<Boolean>): Boolean {
     return this.getBoolean(pref.key, pref.default)
 }
