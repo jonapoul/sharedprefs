@@ -1,33 +1,48 @@
 package com.jonapoul.sharedprefs
 
 import android.content.SharedPreferences
+import java.lang.ClassCastException
 
 fun SharedPreferences.parseIntFromPair(pref: PrefPair<String>): Int {
-    return this.getString(pref.key, pref.default)!!.toInt()
+    return typeSafeGet(pref) {
+        this.getString(pref.key, pref.default)!!
+    }.toInt()
 }
 
 fun SharedPreferences.parseDoubleFromPair(pref: PrefPair<String>): Double {
-    return this.getString(pref.key, pref.default)!!.toDouble()
+    return typeSafeGet(pref) {
+        this.getString(pref.key, pref.default)!!
+    }.toDouble()
 }
 
 fun SharedPreferences.parseFloatFromPair(pref: PrefPair<String>): Float {
-    return this.getString(pref.key, pref.default)!!.toFloat()
+    return typeSafeGet(pref) {
+        this.getString(pref.key, pref.default)!!
+    }.toFloat()
 }
 
 fun SharedPreferences.getIntFromPair(pref: PrefPair<Int>): Int {
-    return this.getInt(pref.key, pref.default)
+    return typeSafeGet(pref) {
+        this.getInt(pref.key, pref.default)
+    }
 }
 
 fun SharedPreferences.getFloatFromPair(pref: PrefPair<Float>): Float {
-    return this.getFloat(pref.key, pref.default)
+    return typeSafeGet(pref) {
+        this.getFloat(pref.key, pref.default)
+    }
 }
 
 fun SharedPreferences.getLongFromPair(pref: PrefPair<Long>): Long {
-    return this.getLong(pref.key, pref.default)
+    return typeSafeGet(pref) {
+        this.getLong(pref.key, pref.default)
+    }
 }
 
 fun SharedPreferences.getStringFromPair(pref: PrefPair<String>): String {
-    return this.getString(pref.key, pref.default)!!
+    return typeSafeGet(pref) {
+        this.getString(pref.key, pref.default)!!
+    }
 }
 
 fun SharedPreferences.getStringFromPairNoBlank(pref: PrefPair<String>): String {
@@ -36,11 +51,24 @@ fun SharedPreferences.getStringFromPairNoBlank(pref: PrefPair<String>): String {
 }
 
 fun SharedPreferences.getBooleanFromPair(pref: PrefPair<Boolean>): Boolean {
-    return this.getBoolean(pref.key, pref.default)
+    return typeSafeGet(pref) {
+        this.getBoolean(pref.key, pref.default)
+    }
 }
 
 fun SharedPreferences.getStringSetFromPair(pref: PrefPair<Set<String>>): Set<String> {
-    return this.getStringSet(pref.key, pref.default)!!
+    return typeSafeGet(pref) {
+        this.getStringSet(pref.key, pref.default)!!
+    }
+}
+
+private fun <T> SharedPreferences.typeSafeGet(pref: PrefPair<T>, call: () -> T): T {
+    return try {
+        call()
+    } catch (e: ClassCastException) {
+        this.edit().remove(pref.key).apply()
+        pref.default
+    }
 }
 
 fun SharedPreferences.Editor.putIntIfNotNull(
